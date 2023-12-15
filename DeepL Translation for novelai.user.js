@@ -6,14 +6,12 @@
 // @author       ㅇㅇ
 // @match        https://novelai.net/*
 // @grant        GM_xmlhttpRequest
-// @grant        GM_setValue
-// @grant        GM_getValue
 // ==/UserScript==
 
 (function () {
   "use strict";
 
-  const apiKey = " api 키 입력"; // Replace with your DeepL API key
+  const apiKey = "딥엘 API 키"; // Replace with your DeepL API key
 
   function translateText(text, targetLanguage, callback) {
     const apiUrl = "https://api-free.deepl.com/v2/translate";
