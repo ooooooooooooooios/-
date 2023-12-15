@@ -1,17 +1,19 @@
 // ==UserScript==
 // @name         깡갤 원터치툴 연동 DeepL api 번역
 // @namespace    http://your-namespace.com
-// @version      0.1
+// @version      0.2
 // @description  Translate text inside #extracted-text inside #t-wide to Korean using DeepL API on novelai.net
 // @author       ㅇㅇ
 // @match        https://novelai.net/*
 // @grant        GM_xmlhttpRequest
+// @grant        GM_setValue
+// @grant        GM_getValue
 // ==/UserScript==
 
 (function () {
   "use strict";
 
-  const apiKey = "딥엘 API 키"; // Replace with your DeepL API key
+  const apiKey = " api 키 입력"; // Replace with your DeepL API key
 
   function translateText(text, targetLanguage, callback) {
     const apiUrl = "https://api-free.deepl.com/v2/translate";
@@ -60,21 +62,16 @@
 
   // 번역을 수행하고, 번역된 텍스트를 #extracted-text 요소에 삽입하는 함수
   function translatePage() {
-    const tWideElement = document.querySelector("#t-wide");
-    if (tWideElement && tWideElement.style.display === "flex") {
-      const extractedTextElement = document.querySelector(
-        "#t-wide #extracted-text"
-      );
-      if (extractedTextElement) {
-        const originalHtml = extractedTextElement.innerHTML;
-        const textToTranslate = preserveBreaks(originalHtml);
+    const extractedTextElement = document.querySelector(
+      "#t-wide #extracted-text"
+    );
+    if (extractedTextElement) {
+      const originalHtml = extractedTextElement.innerHTML; // HTML 구조를 포함한 내용
+      const textToTranslate = originalHtml;
 
-        translateText(textToTranslate, "KO", function (translatedText) {
-          const restoredTextWithBreaks = restoreBreaks(translatedText);
-          const styledText = applyStyleToQuotes(restoredTextWithBreaks);
-          extractedTextElement.innerHTML = styledText;
-        });
-      }
+      translateText(textToTranslate, "KO", function (translatedText) {
+        extractedTextElement.innerHTML = translatedText; // 번역된 텍스트로 내용을 교체 (HTML 구조 포함)
+      });
     }
   }
 
@@ -95,10 +92,7 @@
     updateTextStyle();
 
     // 추출된 텍스트에 스타일 적용
-    const styledText = applyStyleToQuotes(pText);
-
-    // 적용된 스타일 텍스트를 DOM에 설정
-    extractedText.innerHTML = styledText;
+    extractedTextElement.innerHTML = translatedText;
   }
 
   // 'pText'에 대한 스타일을 적용하는 함수
