@@ -110,28 +110,13 @@
     document.querySelector("#extracted-text").innerHTML = withStyledQuotes;
   }
 
-  // 번역하기 버튼의 display 속성을 조정하는 함수
-  function adjustTranslateButtonDisplay() {
-    const tWideElement = document.querySelector("#t-wide");
-    const translateButton = document.querySelector("#translateButton");
-    if (translateButton) {
-      translateButton.style.display = tWideElement.style.display === "flex" ? "block" : "none";
-    }
-  }
-
-  // 번역하기 버튼 생성
   function createTranslateButton() {
     const button = document.createElement("button");
-    button.id = "translateButton";
     button.textContent = "번역하기";
     button.style.position = "fixed";
     button.style.top = "10px";
-    button.style.right = "10px";
-    button.style.zIndex = "9999";
-    button.style.display = "none"; // 기본값은 숨김 처리
+    button.style.right = "10px"; // Set the right position to 10px
 
-    // 스타일 적용
-    // ... 스타일 속성 설정 ...
     // Apply styles
     button.style.color = "var(--Tmain-color)";
     button.style.background = "var(--loader-color)";
@@ -140,20 +125,20 @@
 
     document.body.appendChild(button);
 
-    // 버튼 클릭 이벤트 리스너 추가
-    button.addEventListener("click", translatePage);
-
-    // display 속성을 조정하기 위한 MutationObserver 생성 및 설정
+    // Check #t-wide display property and set button z-index accordingly
     const tWideElement = document.querySelector("#t-wide");
-    if (tWideElement) {
-      const observer = new MutationObserver(adjustTranslateButtonDisplay);
-      observer.observe(tWideElement, {
-        attributes: true,
-        attributeFilter: ["style"],
-      });
-    } else {
-      console.error("#t-wide 요소를 찾을 수 없습니다.");
-    }
+    const observer = new MutationObserver(() => {
+      button.style.zIndex =
+        tWideElement.style.display === "flex" ? "9999" : "-1";
+    });
+
+    observer.observe(tWideElement, {
+      attributes: true,
+      attributeFilter: ["style"],
+    });
+
+    // Add click event listener to the button
+    button.addEventListener("click", translatePage);
   }
 
   // Create and append the translation button when the page is loaded
