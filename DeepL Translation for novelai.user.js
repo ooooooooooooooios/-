@@ -114,8 +114,10 @@
     const button = document.createElement("button");
     button.textContent = "번역하기";
     button.style.position = "fixed";
-    button.style.top = "10px";
+    button.style.top = "-100%";
     button.style.right = "10px"; // Set the right position to 10px
+    button.style.zIndex = "9999";
+    button.style.transition = "0.5s";
 
     // Apply styles
     button.style.color = "var(--Tmain-color)";
@@ -124,6 +126,7 @@
     button.style.borderRadius = "4px";
 
     document.body.appendChild(button);
+
 
     // Check #t-wide display property and set button z-index accordingly
     const tWideElement = document.querySelector("#t-wide");
