@@ -127,12 +127,11 @@
 
     document.body.appendChild(button);
 
-
     // Check #t-wide display property and set button z-index accordingly
     const tWideElement = document.querySelector("#t-wide");
     const observer = new MutationObserver(() => {
-      button.style.zIndex =
-        tWideElement.style.display === "flex" ? "9999" : "-1";
+      button.style.top =
+        tWideElement.style.display === "flex" ? "10px" : "-100%";
     });
 
     observer.observe(tWideElement, {
